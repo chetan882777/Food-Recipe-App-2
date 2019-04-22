@@ -9,8 +9,10 @@ import com.chetan.foodrecipe2.AppExecutors;
 import com.chetan.foodrecipe2.models.Recipe;
 import com.chetan.foodrecipe2.persistence.RecipeDao;
 import com.chetan.foodrecipe2.persistence.RecipeDatabase;
+import com.chetan.foodrecipe2.requests.ServiceGenerator;
 import com.chetan.foodrecipe2.requests.responses.ApiResponse;
 import com.chetan.foodrecipe2.requests.responses.RecipeSearchResponse;
+import com.chetan.foodrecipe2.util.Constants;
 import com.chetan.foodrecipe2.util.NetworkBoundResource;
 import com.chetan.foodrecipe2.util.Resource;
 
@@ -55,7 +57,12 @@ public class RecipeRepository {
             @NonNull
             @Override
             public LiveData<ApiResponse<RecipeSearchResponse>> createCall() {
-                return null;
+                return ServiceGenerator.getRecipeApi()
+                        .searchRecipe(
+                                Constants.API_KEY,
+                                query,
+                                String.valueOf(pageNumber)
+                        );
             }
 
         }.getAsLiveData();
