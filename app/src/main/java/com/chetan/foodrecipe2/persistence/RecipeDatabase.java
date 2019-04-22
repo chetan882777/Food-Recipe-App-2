@@ -27,4 +27,6 @@ public abstract class RecipeDatabase extends RoomDatabase {
         return instance;
     }
 
+    public abstract RecipeDao getRecipeDao();
+
 }
