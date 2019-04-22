@@ -1,8 +1,10 @@
 package com.chetan.foodrecipe2;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -38,6 +40,29 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
     }
 
+    private void subscribeObservers(){
+        mRecipeListViewModel.getViewState().observe(this, new Observer<RecipeListViewModel.ViewState>() {
+            @Override
+            public void onChanged(@Nullable RecipeListViewModel.ViewState viewState) {
+                if(viewState  != null){
+                    switch (viewState){
+                        case CATEGORIES: {
+                            displaySearchCategories();
+                            break;
+                        }
+
+                        case RECIPES:{
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void displaySearchCategories() {
+        mAdapter.displaySearchCategories();
+    }
 
     private void initRecyclerView(){
         mAdapter = new RecipeRecyclerAdapter(this);
