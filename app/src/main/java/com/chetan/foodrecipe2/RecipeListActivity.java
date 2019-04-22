@@ -48,16 +48,13 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     }
 
     private void subscribeObservers(){
-        Log.d(TAG, "subscribeObservers: inside subscribeObservers");
         mRecipeListViewModel.getRecipes().observe(this, new Observer<Resource<List<Recipe>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Recipe>> listResource) {
                 if(listResource != null){
                     Log.d(TAG, "onChanged: Status! " + listResource.status);
 
-                    if(listResource.data != null){
-                        Testing.printRecipes(listResource.data , "data");
-                    }
+                    mAdapter.setRecipes(listResource.data);
                 }
             }
         });
@@ -65,20 +62,15 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mRecipeListViewModel.getViewState().observe(this, new Observer<RecipeListViewModel.ViewState>() {
             @Override
             public void onChanged(@Nullable RecipeListViewModel.ViewState viewState) {
-                Log.d(TAG, "onChanged: inside view state observer");
                 if(viewState  != null){
                     switch (viewState){
                         case CATEGORIES: {
-                            Log.d(TAG, "onChanged: CATEGORIES view state");
                             displaySearchCategories();
                             break;
                         }
 
                         case RECIPES:{
                             break;
-                        }
-                        default:{
-                            Log.d(TAG, "onChanged: no match");
                         }
                     }
                 }

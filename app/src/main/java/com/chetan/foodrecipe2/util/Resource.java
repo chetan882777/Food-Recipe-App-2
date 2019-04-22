@@ -10,7 +10,7 @@ public class Resource<T> {
     @Nullable
     public final T data;
     @Nullable public final String message;
-    private Resource(@NonNull Status status, @Nullable T data,
+    public Resource(@NonNull Status status, @Nullable T data,
                      @Nullable String message) {
         this.status = status;
         this.data = data;

@@ -25,7 +25,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int EXHAUSTED_TYPE = 4;
 
 
-    private static final String TAG = "RecipeRecyclerAdapter";
     private List<Recipe> mRecipes;
     private OnRecipeListener mOnRecipeListener;
 
@@ -167,7 +166,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void displaySearchCategories(){
         List<Recipe> categories = new ArrayList<>();
-        Log.d(TAG, "displaySearchCategories: list size" + categories.size());
         for(int i = 0; i< Constants.DEFAULT_SEARCH_CATEGORIES.length; i++){
             Recipe recipe = new Recipe();
             recipe.setTitle(Constants.DEFAULT_SEARCH_CATEGORIES[i]);
@@ -175,7 +173,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             recipe.setSocial_rank(-1);
             categories.add(recipe);
         }
-        Log.d(TAG, "displaySearchCategories: list size" + categories.size());
         mRecipes = categories;
         notifyDataSetChanged();
     }
