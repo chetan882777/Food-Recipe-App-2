@@ -31,4 +31,12 @@ public class AppExecutors {
             mainThreadHandler.post(command);
         }
     }
+
+    public Executor diskIO() {
+        return mDiskIO;
+    }
+
+    public Executor mainThread() {
+        return mMainThreadExecutor;
+    }
 }
