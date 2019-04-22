@@ -3,6 +3,7 @@ package com.chetan.foodrecipe2.adapters;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int CATEGORY_TYPE = 3;
     private static final int EXHAUSTED_TYPE = 4;
 
+
+    private static final String TAG = "RecipeRecyclerAdapter";
     private List<Recipe> mRecipes;
     private OnRecipeListener mOnRecipeListener;
 
@@ -88,7 +91,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.drawable.ic_launcher_background);
 
-            Uri path = Uri.parse("android.resource://com.codingwithmitch.foodrecipes/drawable/" + mRecipes.get(i).getImage_url());
+            Uri path = Uri.parse("android.resource://com.chetan.foodrecipe2/drawable/" + mRecipes.get(i).getImage_url());
             Glide.with(viewHolder.itemView.getContext())
                     .setDefaultRequestOptions(requestOptions)
                     .load(path)
@@ -164,6 +167,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void displaySearchCategories(){
         List<Recipe> categories = new ArrayList<>();
+        Log.d(TAG, "displaySearchCategories: list size" + categories.size());
         for(int i = 0; i< Constants.DEFAULT_SEARCH_CATEGORIES.length; i++){
             Recipe recipe = new Recipe();
             recipe.setTitle(Constants.DEFAULT_SEARCH_CATEGORIES[i]);
@@ -171,6 +175,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             recipe.setSocial_rank(-1);
             categories.add(recipe);
         }
+        Log.d(TAG, "displaySearchCategories: list size" + categories.size());
         mRecipes = categories;
         notifyDataSetChanged();
     }

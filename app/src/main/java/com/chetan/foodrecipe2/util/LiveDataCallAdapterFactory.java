@@ -1,6 +1,7 @@
 package com.chetan.foodrecipe2.util;
 
 import android.arch.lifecycle.LiveData;
+import android.util.Log;
 
 import com.chetan.foodrecipe2.requests.responses.ApiResponse;
 
@@ -33,6 +34,6 @@ public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
         }
 
         Type bodyType = CallAdapter.Factory.getParameterUpperBound(0 , (ParameterizedType) observableType);
-        return new LiveDataCallAdapter<>(bodyType);
+        return new LiveDataCallAdapter<Type>(bodyType);
     }
 }

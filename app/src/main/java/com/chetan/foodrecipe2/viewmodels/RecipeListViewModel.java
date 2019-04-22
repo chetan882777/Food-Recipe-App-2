@@ -37,6 +37,7 @@ public class RecipeListViewModel extends AndroidViewModel {
     private void init() {
         if(viewState == null){
             viewState = new MutableLiveData<>();
+            viewState.setValue(ViewState.CATEGORIES);
         }
     }
 

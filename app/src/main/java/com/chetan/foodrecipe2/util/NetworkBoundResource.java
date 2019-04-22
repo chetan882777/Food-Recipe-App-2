@@ -75,6 +75,7 @@ public abstract class NetworkBoundResource<CacheObject, RequestObject> {
 
         final LiveData<ApiResponse<RequestObject>> apiResponse = createCall();
 
+
         results.addSource(apiResponse, new Observer<ApiResponse<RequestObject>>() {
             @Override
             public void onChanged(@Nullable final ApiResponse<RequestObject> requestObjectApiResponse) {
