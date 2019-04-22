@@ -22,9 +22,9 @@ public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
 
         Type observableType = CallAdapter.Factory.getParameterUpperBound(0 , (ParameterizedType) returnType);
 
-        Type rawObservalbeType = CallAdapter.Factory.getRawType(observableType);
+        Type rawObservableType = CallAdapter.Factory.getRawType(observableType);
 
-        if(rawObservalbeType != ApiResponse.class){
+        if(rawObservableType != ApiResponse.class){
             throw new IllegalArgumentException("Type must be defined resource");
         }
 
