@@ -9,12 +9,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 
 import com.chetan.foodrecipe2.adapters.OnRecipeListener;
 import com.chetan.foodrecipe2.adapters.RecipeRecyclerAdapter;
+import com.chetan.foodrecipe2.models.Recipe;
+import com.chetan.foodrecipe2.util.Resource;
+import com.chetan.foodrecipe2.util.Testing;
 import com.chetan.foodrecipe2.util.VerticalSpacingItemDecorator;
 import com.chetan.foodrecipe2.viewmodels.RecipeListViewModel;
+
+import java.util.List;
 
 
 public class RecipeListActivity extends BaseActivity implements OnRecipeListener {
@@ -37,10 +43,24 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
         initRecyclerView();
         initSearchView();
+        subscribeObservers();
         setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
     }
 
     private void subscribeObservers(){
+        mRecipeListViewModel.getRecipes().observe(this, new Observer<Resource<List<Recipe>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<Recipe>> listResource) {
+                if(listResource != null){
+                    Log.d(TAG, "onChanged: Status! " + listResource.status);
+
+                    if(listResource.data != null){
+                        Testing.printRecipes(listResource.data , "data");
+                    }
+                }
+            }
+        });
+
         mRecipeListViewModel.getViewState().observe(this, new Observer<RecipeListViewModel.ViewState>() {
             @Override
             public void onChanged(@Nullable RecipeListViewModel.ViewState viewState) {
@@ -60,6 +80,10 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         });
     }
 
+    private void searchRecipeApi(String query){
+        mRecipeListViewModel.searchRecipeApi(query, 1);
+    }
+
     private void displaySearchCategories() {
         mAdapter.displaySearchCategories();
     }
@@ -76,8 +100,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-
-
+                searchRecipeApi(s);
                 return false;
             }
 
@@ -97,7 +120,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
     @Override
     public void onCategoryClick(String category) {
-        
+        searchRecipeApi(category);
     }
 
 }
