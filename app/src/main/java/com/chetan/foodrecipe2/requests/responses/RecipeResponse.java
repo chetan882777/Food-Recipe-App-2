@@ -11,15 +11,7 @@ public class RecipeResponse {
 
     @SerializedName("recipe")
     @Expose()
-    private com.chetan.foodrecipe2.models.Recipe recipe;
-
-    @SerializedName("error")
-    @Expose()
-    private String error;
-
-    public String getError() {
-        return error;
-    }
+    private Recipe recipe;
 
     @Nullable
     public Recipe getRecipe(){
@@ -30,7 +22,6 @@ public class RecipeResponse {
     public String toString() {
         return "RecipeResponse{" +
                 "recipe=" + recipe +
-                ", error='" + error + '\'' +
                 '}';
     }
 }

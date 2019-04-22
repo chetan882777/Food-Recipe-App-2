@@ -17,15 +17,7 @@ public class RecipeSearchResponse {
 
     @SerializedName("recipes")
     @Expose()
-    private List<com.chetan.foodrecipe2.models.Recipe> recipes;
-
-    @SerializedName("error")
-    @Expose()
-    private String error;
-
-    public String getError() {
-        return error;
-    }
+    private List<Recipe> recipes;
 
     public int getCount() {
         return count;
@@ -41,7 +33,6 @@ public class RecipeSearchResponse {
         return "RecipeSearchResponse{" +
                 "count=" + count +
                 ", recipes=" + recipes +
-                ", error='" + error + '\'' +
                 '}';
     }
 }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     public ProgressBar mProgressBar;
