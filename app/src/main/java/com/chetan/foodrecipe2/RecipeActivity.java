@@ -1,5 +1,6 @@
 package com.chetan.foodrecipe2;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +10,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.chetan.foodrecipe2.models.Recipe;
+import com.chetan.foodrecipe2.util.Resource;
 import com.chetan.foodrecipe2.viewmodels.RecipeViewModel;
+
+import static com.chetan.foodrecipe2.util.Resource.Status.ERROR;
+import static com.chetan.foodrecipe2.util.Resource.Status.LOADING;
 
 public class RecipeActivity extends BaseActivity {
 
@@ -46,8 +52,44 @@ public class RecipeActivity extends BaseActivity {
         if(getIntent().hasExtra("recipe")){
             Recipe recipe = getIntent().getParcelableExtra("recipe");
             Log.d(TAG, "getIncomingIntent: " + recipe.getTitle());
-
+            subscribeObservers(recipe.getRecipe_id());
         }
+    }
+
+
+    private void subscribeObservers(final String recipeId){
+        mRecipeViewModel.searchRecipeApi(recipeId).observe(this, new Observer<Resource<Recipe>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Recipe> recipeResource) {
+                if(recipeResource != null){
+                    if(recipeResource.data != null) {
+                        switch (recipeResource.status) {
+                            case LOADING: {
+                                showProgressBar(true);
+                                break;
+                            }
+                            case SUCCESS: {
+                                Log.d(TAG, "onChanged: cache has been refreshed.");
+                                Log.d(TAG, "onChanged: status: SUCCESS, Recipe: " + recipeResource.data.getTitle());
+                                showParent();
+                                showProgressBar(false);
+
+                                break;
+                            }
+                            case ERROR: {
+                                Log.e(TAG, "onChanged: status: ERROR, Recipe: " + recipeResource.data.getTitle());
+                                Log.e(TAG, "onChanged: status: ERROR message: " + recipeResource.message);
+                                Toast.makeText(RecipeActivity.this, recipeResource.message, Toast.LENGTH_SHORT).show();
+                                showParent();
+                                showProgressBar(false);
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
