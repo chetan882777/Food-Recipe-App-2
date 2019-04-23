@@ -134,7 +134,7 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
 
     private RequestManager initGlide(){
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.white_background);
+                .placeholder(R.drawable.ic_launcher_background);
 
         return Glide.with(this).setDefaultRequestOptions(options);
     }
