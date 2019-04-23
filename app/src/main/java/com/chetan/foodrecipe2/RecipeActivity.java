@@ -99,8 +99,8 @@ public class RecipeActivity extends BaseActivity {
     private void setRecipeProperties(Recipe recipe){
         if(recipe != null){
             RequestOptions options = new RequestOptions()
-                    .placeholder(R.drawable.white_background)
-                    .error(R.drawable.white_background);
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background);
 
             Glide.with(this)
                     .setDefaultRequestOptions(options)
