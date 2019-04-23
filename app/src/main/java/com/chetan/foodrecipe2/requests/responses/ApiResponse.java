@@ -13,6 +13,21 @@ public class ApiResponse<T> {
     public ApiResponse<T> create(Response<T> response) {
         if (response.isSuccessful()) {
             T body = response.body();
+
+            if(body instanceof RecipeSearchResponse){
+                if(!CheckRecipeApiKey.isRecipeApiKeyValid((RecipeSearchResponse)body)){
+                    String errorMsg = "Api key is invalid or expired";
+                    return new ApiErrorResponse<>(errorMsg);
+                }
+            }
+
+            if(body instanceof RecipeResponse){
+                if(!CheckRecipeApiKey.isRecipeApiKeyValid((RecipeResponse)body)){
+                    String errorMsg = "Api key is invalid or expired";
+                    return new ApiErrorResponse<>(errorMsg);
+                }
+            }
+
             if (body == null || response.code() == 204) { // 204 is empty response code
                 return new ApiEmptyResponse<>();
             } else {
