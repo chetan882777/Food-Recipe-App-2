@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -117,7 +118,9 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
     }
 
     private void searchRecipeApi(String query){
+        mRecyclerView.smoothScrollToPosition(0);
         mRecipeListViewModel.searchRecipeApi(query, 1);
+        mSearchView.clearFocus();
     }
 
     private void displaySearchCategories() {
@@ -128,8 +131,21 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mAdapter = new RecipeRecyclerAdapter(this, initGlide());
         VerticalSpacingItemDecorator itemDecorator = new VerticalSpacingItemDecorator(30);
         mRecyclerView.addItemDecoration(itemDecorator);
-        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if(!recyclerView.canScrollVertically(1) &&
+                        mRecipeListViewModel.getViewState().getValue() == RecipeListViewModel.ViewState.RECIPES){
+                    mRecipeListViewModel.searchNextPage();
+                }
+            }
+        });
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private RequestManager initGlide(){
