@@ -25,4 +25,5 @@ public class Constants {
                     "wine",
                     "italian"
             };
+    public static final long RECIPE_REFRESH_TIME = 60 * 60 * 24 * 30; // 30 days
 }
